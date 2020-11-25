@@ -26,7 +26,7 @@ namespace MiniBlog.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Register(User user)
         {
-            userService.Register(user);
+            userService.RegisterUser(user);
             return CreatedAtAction(nameof(Register), new { name = user.Name }, user);
         }
 
@@ -39,26 +39,13 @@ namespace MiniBlog.Controllers
         [HttpPut]
         public User Update(User user)
         {
-            var foundUser = userStore.Users.FirstOrDefault(_ => _.Name == user.Name);
-            if (foundUser != null)
-            {
-                foundUser.Email = user.Email;
-            }
-
-            return foundUser;
+            return userService.UpdateUser(user);
         }
 
         [HttpDelete]
         public User Delete(string name)
         {
-            var foundUser = userStore.Users.FirstOrDefault(_ => _.Name == name);
-            if (foundUser != null)
-            {
-                userStore.Users.Remove(foundUser);
-                articleStore.Articles.RemoveAll(a => a.UserName == foundUser.Name);
-            }
-
-            return foundUser;
+            return userService.DeleteUser(name);
         }
 
         [HttpGet("{name}")]
