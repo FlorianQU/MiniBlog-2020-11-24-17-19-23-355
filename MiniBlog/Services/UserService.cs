@@ -48,5 +48,10 @@ namespace MiniBlog.Services
 
             return foundUser;
         }
+
+        public User GetUserByName(string name)
+        {
+            return userStore.Users.FirstOrDefault(_ => _.Name.ToLower() == name.ToLower());
+        }
     }
 }
