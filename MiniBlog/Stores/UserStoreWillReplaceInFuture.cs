@@ -21,16 +21,16 @@ namespace MiniBlog.Stores
         }
     }
 
-    public class TestUserStore : IUserStore
-    {
-        public List<User> Users
-        {
-            get
-            {
-                throw new SystemException();
-            }
-        }
-    }
+    //public class TestUserStore : IUserStore
+    //{
+    //    public List<User> Users
+    //    {
+    //        get
+    //        {
+    //            throw new SystemException();
+    //        }
+    //    }
+    //}
 
     public class UserStoreWillReplaceInFuture
     {

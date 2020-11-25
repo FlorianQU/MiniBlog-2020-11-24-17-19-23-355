@@ -20,16 +20,16 @@ namespace MiniBlog.Stores
         }
     }
 
-    public class TestArticleStore : IArticleStore
-    {
-        public List<Article> Articles
-        {
-            get
-            {
-                throw new SystemException();
-            }
-        }
-    }
+    //public class TestArticleStore : IArticleStore
+    //{
+    //    public List<Article> Articles
+    //    {
+    //        get
+    //        {
+    //            throw new SystemException();
+    //        }
+    //    }
+    //}
 
     public class ArticleStoreWillReplaceInFuture
     {
