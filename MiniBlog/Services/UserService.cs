@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiniBlog.Model;
 using MiniBlog.Stores;
 
 namespace MiniBlog.Services
@@ -13,6 +14,14 @@ namespace MiniBlog.Services
         public UserService(IUserStore userStore)
         {
             this.userStore = userStore;
+        }
+
+        public void Register(User user)
+        {
+            if (!userStore.Users.Exists(_ => user.Name.ToLower() == _.Name.ToLower()))
+            {
+                userStore.Users.Add(user);
+            }
         }
     }
 }

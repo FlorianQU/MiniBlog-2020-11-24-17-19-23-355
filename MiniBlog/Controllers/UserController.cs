@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using MiniBlog.Model;
+using MiniBlog.Services;
 using MiniBlog.Stores;
 
 namespace MiniBlog.Controllers
@@ -14,20 +15,18 @@ namespace MiniBlog.Controllers
     {
         private readonly IUserStore userStore;
         private readonly IArticleStore articleStore;
-        public UserController(IUserStore userStore, IArticleStore articleStore)
+        private readonly UserService userService;
+        public UserController(IUserStore userStore, IArticleStore articleStore, UserService userService)
         {
             this.userStore = userStore;
             this.articleStore = articleStore;
+            this.userService = userService;
         }
 
         [HttpPost]
         public async Task<ActionResult<User>> Register(User user)
         {
-            if (!userStore.Users.Exists(_ => user.Name.ToLower() == _.Name.ToLower()))
-            {
-                userStore.Users.Add(user);
-            }
-
+            userService.Register(user);
             return CreatedAtAction(nameof(Register), new { name = user.Name }, user);
         }
 
