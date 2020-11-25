@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MiniBlog.Model;
+using MiniBlog.Services;
 using MiniBlog.Stores;
 
 namespace MiniBlog.Controllers
@@ -15,11 +16,13 @@ namespace MiniBlog.Controllers
     {
         private readonly IArticleStore articleStore;
         private readonly IUserStore userStore;
+        private readonly ArticleService articleService;
 
-        public ArticleController(IArticleStore articleStore, IUserStore userStore)
+        public ArticleController(IArticleStore articleStore, IUserStore userStore, ArticleService articleService)
         {
             this.articleStore = articleStore;
             this.userStore = userStore;
+            this.articleService = articleService;
         }
 
         [HttpGet]
@@ -31,15 +34,7 @@ namespace MiniBlog.Controllers
         [HttpPost]
         public async Task<ActionResult<Article>> Create(Article article)
         {
-            if (article.UserName != null)
-            {
-                if (!userStore.Users.Exists(_ => article.UserName == _.Name))
-                {
-                    userStore.Users.Add(new User(article.UserName));
-                }
-
-                articleStore.Articles.Add(article);
-            }
+            articleService.Create(article);
 
             return CreatedAtAction(nameof(GetById), new { id = article.Id }, article);
         }
